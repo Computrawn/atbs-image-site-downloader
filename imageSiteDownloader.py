@@ -4,6 +4,7 @@
 
 import concurrent.futures
 import requests
+import time
 import bs4
 
 img_list = []
@@ -32,13 +33,13 @@ def filter_links(img_list):
 
 
 def link_downloader(unsplash):
+    """Downloads files from site."""
     for name in unsplash:
         unsplash_link = f"https://images.unsplash.com/{name}"
         unsplash_filename = f"{name}.jpg"
         img_bytes = requests.get(unsplash_link, timeout=60.0).content
         with open(unsplash_filename, "wb") as image_file:
             image_file.write(img_bytes)
-            print(f"Downloading {unsplash_link} as {unsplash_filename}.")
 
 
 user_input = input("What would you like to search for? ")
@@ -46,4 +47,7 @@ url = f"https://unsplash.com/s/photos/{user_input}"
 
 find_source(url)
 filter_links(img_list)
+start = time.perf_counter()
 link_downloader(unsplash_name)
+finish = time.perf_counter()
+print(f"Downloaded all files in {finish - start} seconds")

@@ -8,7 +8,7 @@ import bs4
 img_list = []
 
 
-def photo_downloader(search_object):
+def find_source(search_object):  # Need to figure out how to find the src links.
     res = requests.get(search_object, timeout=60.0)
     res.raise_for_status()
     soup_file = bs4.BeautifulSoup(res.text, "lxml")
@@ -18,7 +18,7 @@ def photo_downloader(search_object):
         img_list.append(img_class)
 
 
-def print_list(img_list):
+def download_photos(img_list):  # Will change this eventually to download source links.
     for img in img_list:
         print(img)
         print("<-----*****----->")
@@ -27,5 +27,5 @@ def print_list(img_list):
 user_input = input("What would you like to search for? ")
 url = f"https://unsplash.com/s/photos/{user_input}"
 
-photo_downloader(url)
-print_list(img_list)
+find_source(url)
+download_photos(img_list)

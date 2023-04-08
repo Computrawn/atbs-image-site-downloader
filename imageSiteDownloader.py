@@ -32,14 +32,23 @@ def filter_links(img_list):
             unsplash_name.append(file_name)
 
 
-def link_downloader(unsplash):
-    """Downloads files from site."""
+def nothread_downloader(unsplash):
+    """Downloads files from list."""
     for name in unsplash:
         unsplash_link = f"https://images.unsplash.com/{name}"
         unsplash_filename = f"{name}.jpg"
         img_bytes = requests.get(unsplash_link, timeout=60.0).content
-        with open(unsplash_filename, "wb") as image_file:
+        with open(f"photos/{unsplash_filename}", "wb") as image_file:
             image_file.write(img_bytes)
+
+
+def thread_downloader(unsplash):
+    """Downloads files from list."""
+    unsplash_link = f"https://images.unsplash.com/{unsplash}"
+    unsplash_filename = f"{unsplash}.jpg"
+    img_bytes = requests.get(unsplash_link, timeout=60.0).content
+    with open(f"photos/{unsplash_filename}", "wb") as image_file:
+        image_file.write(img_bytes)
 
 
 user_input = input("What would you like to search for? ")
@@ -47,7 +56,14 @@ url = f"https://unsplash.com/s/photos/{user_input}"
 
 find_source(url)
 filter_links(img_list)
+
 start = time.perf_counter()
-link_downloader(unsplash_name)
+# nothread_downloader(
+#     unsplash_name
+# )  # This is where I'd like to test concurrent futures model to see if I can boost performance with threading.
+
+with concurrent.futures.ThreadPoolExecutor() as executor:
+    executor.map(thread_downloader, unsplash_name)
+
 finish = time.perf_counter()
-print(f"Downloaded all files in {finish - start} seconds")
+print(f"Downloaded all files in {finish - start} seconds.")

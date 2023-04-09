@@ -32,14 +32,14 @@ def filter_links(img_list):
             unsplash_name.append(file_name)
 
 
-def nothread_downloader(unsplash):
-    """Downloads files from list without threading."""
-    for name in unsplash:
-        unsplash_link = f"https://images.unsplash.com/{name}"
-        unsplash_filename = f"{name}.jpg"
-        img_bytes = requests.get(unsplash_link, timeout=60.0).content
-        with open(f"photos/{unsplash_filename}", "wb") as image_file:
-            image_file.write(img_bytes)
+# def nothread_downloader(unsplash):
+#     """Downloads files from list without threading."""
+#     for name in unsplash:
+#         unsplash_link = f"https://images.unsplash.com/{name}"
+#         unsplash_filename = f"{name}.jpg"
+#         img_bytes = requests.get(unsplash_link, timeout=60.0).content
+#         with open(f"photos/{unsplash_filename}", "wb") as image_file:
+#             image_file.write(img_bytes)
 
 
 def thread_downloader(unsplash):

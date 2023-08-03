@@ -58,9 +58,7 @@ find_source(url)
 filter_links(img_list)
 
 start = time.perf_counter()
-# nothread_downloader(
-#     unsplash_name
-# )  # This is where I'd like to test concurrent futures model to see if I can boost performance with threading.
+# nothread_downloader(unsplash_name)
 
 with concurrent.futures.ThreadPoolExecutor() as executor:
     executor.map(thread_downloader, unsplash_name)

@@ -7,7 +7,7 @@ import requests
 from bs4 import BeautifulSoup
 
 
-def find_source(search_object):
+def find_source(search_object: str) -> list[str]:
     """Extract image source links using beautiful soup."""
     res = requests.get(search_object, timeout=60.0)
     res.raise_for_status()
@@ -17,7 +17,7 @@ def find_source(search_object):
     return img_list
 
 
-def filter_links(img_list):
+def filter_links(img_list: list[str]) -> list[str]:
     """Filters source links to isolate urls and filenames."""
     unsplash_name = [
         img.split("/")[3].split("?")[0]
@@ -27,7 +27,7 @@ def filter_links(img_list):
     return unsplash_name
 
 
-def downloader(unsplash):
+def downloader(unsplash: str) -> None:
     """Downloads files from list."""
     unsplash_link = f"https://images.unsplash.com/{unsplash}"
     img_bytes = requests.get(unsplash_link, timeout=60.0).content
@@ -35,7 +35,7 @@ def downloader(unsplash):
         image_file.write(img_bytes)
 
 
-def main():
+def main() -> None:
     image_links = find_source(
         f"https://unsplash.com/s/photos/{input('What would you like to search for? ')}"
     )

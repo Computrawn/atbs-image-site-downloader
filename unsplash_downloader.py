@@ -1,5 +1,5 @@
 #! python3
-# imageSireDownloader.py — An exercise in web scraping.
+# unsplash_downloader.py — An exercise in web scraping.
 # For more information, see project_detail.txt.
 
 import concurrent.futures
